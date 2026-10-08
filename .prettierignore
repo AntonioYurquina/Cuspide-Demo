@@ -1,0 +1,11 @@
+dist/
+node_modules/
+coverage/
+pnpm-lock.yaml
+playwright-report/
+test-results/
+
+# La documentación y el README están escritos a mano: las tablas alineadas
+# por Prettier generan diffs enormes sin aportar nada.
+*.md
+docs/

@@ -1,0 +1,292 @@
+@import 'tailwindcss';
+
+/*
+ * Tailwind v4: la configuración va acá, con @theme. No hay tailwind.config.js
+ * ni PostCSS — el plugin de Vite hace todo. Los tutoriales de v3 no aplican.
+ *
+ * Figtree para texto, IBM Plex Mono para datos tabulares y numeración.
+ */
+
+@theme {
+  --font-sans:
+    'Figtree', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /*
+   * PALETA DE LA EMPRESA — el único lugar donde se cambia.
+   *
+   * Ningún componente escribe un color literal: todo pasa por estos tokens.
+   * Los colores por propietario (HU02) son datos, no tema.
+   */
+
+  /* Fondo de la aplicación. */
+  --color-fondo: #f3f6f7;
+
+  /* Verde de marca: la acción (50 = el más claro, 900 = el más oscuro). */
+  --color-marca-50: #eaf3ed;
+  --color-marca-100: #cfe3d7;
+  --color-marca-200: #a9d4bb;
+  --color-marca-300: #7ec89b;
+  --color-marca-400: #3d8f61;
+  --color-marca-500: #2a7a52;
+  --color-marca-600: #1f6b45;
+  --color-marca-700: #164f34;
+  --color-marca-800: #123f2a;
+  --color-marca-900: #0d2e1f;
+
+  /*
+   * Tinta: el chrome oscuro (topbar, panel del login) y el azul de acento.
+   * Los pasos claros (25-100) son para texto o superficies SOBRE el oscuro;
+   * los oscuros (800-950), para el oscuro mismo.
+   */
+  --color-tinta-25: #eef4f6;
+  --color-tinta-50: #e9f1f6;
+  --color-tinta-75: #e0e9ec;
+  --color-tinta-100: #e8f0f2;
+  --color-tinta-200: #a6bcc5;
+  --color-tinta-300: #93aab5;
+  --color-tinta-400: #86a2ad;
+  --color-tinta-500: #4f96cc;
+  --color-tinta-600: #2f7bb0;
+  --color-tinta-700: #123b53;
+  --color-tinta-800: #1b303c;
+  --color-tinta-900: #153041;
+  --color-tinta-950: #11212a;
+  --color-tinta-borde: #27424f;
+  --color-tinta-borde-tenue: #2d4a58;
+  --color-tinta-degradado: #1a3c4e;
+
+  /* Grises de la estructura: bordes, tablas y texto secundario. */
+  --color-gris-50: #f6f9fa;
+  --color-gris-100: #eff2f3;
+  --color-gris-200: #e6ebe9;
+  --color-gris-300: #dbe3e1;
+  --color-gris-400: #97a6ab;
+  --color-gris-500: #88979d;
+  --color-gris-600: #65767d;
+  --color-gris-700: #50626a;
+  --color-gris-800: #3f5059;
+  --color-gris-900: #11212a;
+
+  /* Rojo ladrillo: errores, mora, acciones destructivas. */
+  --color-rojo-50: #fdecea;
+  --color-rojo-100: #f5d6d2;
+  /* El 200 es el paso de `hover` sobre el 100: lo usa la leyenda del inventario. */
+  --color-rojo-200: #eebcb6;
+  --color-rojo-600: #b3382f;
+  --color-rojo-700: #8f2f27;
+  --color-rojo-800: #7a2820;
+
+  /* Ámbar: advertencias y observaciones. */
+  --color-ambar-50: #fdf6ea;
+  --color-ambar-100: #f0e2c8;
+  /* Igual que en rojo: el paso de `hover` sobre el 100. */
+  --color-ambar-200: #e4cfa2;
+  --color-ambar-600: #b5761b;
+  --color-ambar-700: #7d5a17;
+  --color-ambar-800: #5c4211;
+
+  /*
+   * Púrpura: estado "Observada" del circuito de adhesiones. Todavía no lo usa
+   * ningún componente (esa pantalla no está construida); queda definido acá
+   * para no volver a discutir la paleta cuando llegue.
+   */
+  --color-purpura-50: #efe7fa;
+  --color-purpura-200: #c7b3e6;
+  --color-purpura-600: #5b3d96;
+  --color-purpura-700: #472f76;
+  --color-purpura-800: #352357;
+
+  /*
+   * El odontograma del login: las piezas se van marcando y se apagan. Ciclo
+   * largo a propósito — en una pantalla de ingreso la animación tiene que ser
+   * algo que se nota la tercera vez que entrás, no la primera.
+   * Ver `features/auth/Odontograma.tsx`.
+   */
+  --animate-marcar: marcar 14s ease-in-out infinite;
+}
+
+@keyframes marcar {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  42% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-fondo font-sans text-gris-900 antialiased;
+  }
+
+  /* Los importes y correlativos se leen en monoespaciada: alinean por dígito. */
+  .tabular {
+    @apply font-mono tabular-nums;
+  }
+}
+
+/**
+ * Impresión.
+ *
+ * **Lo que convence no es recorrer el sistema: es llevarse un papel** (`D03`). El consentimiento,
+ * el plan de tratamiento y la ficha clínica terminan impresos y firmados, y una demo que no
+ * imprime deja al cliente imaginándose esa parte.
+ *
+ * La regla es una sola: lo que se imprime lo monta `Imprimible` en `#impresion`, un nodo al pie
+ * del documento, y acá se oculta **todo lo demás**. Se usa `display: none` y no `visibility`
+ * porque `visibility` conserva el espacio: la primera versión imprimía la ficha y después una
+ * hoja y media en blanco, que era el alto del listado que quedaba detrás. Sólo se ve generando
+ * el PDF.
+ */
+#impresion {
+  display: none;
+}
+
+/**
+ * La vista previa: el **mismo** nodo que se imprime, mostrado con un fondo detrás.
+ *
+ * El criterio de `HU-012` pide que la vista previa se vea igual que el papel. La forma de
+ * cumplirlo no es que se parezcan: es que sean lo mismo. Entre una cosa y la otra cambia el
+ * fondo y la sombra, nada más.
+ */
+body.viendo-documento {
+  overflow: hidden;
+}
+
+body.viendo-documento #impresion {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: block;
+  overflow-y: auto;
+  background: --alpha(var(--color-tinta-950) / 55%);
+}
+
+/* La hoja, con medidas de papel: así lo que se ve encuadra como lo que sale. */
+.hoja {
+  margin: 0 auto 24px;
+  width: 210mm;
+  max-width: calc(100vw - 32px);
+  background: white;
+  padding: 18mm 16mm;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 30%);
+}
+
+/* Con un documento abierto, la hoja de la ficha que quedó detrás no se ve ni se imprime. */
+body.viendo-documento #impresion .hoja:not(.hoja-documento) {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  /* Fuera todo lo que no es la hoja: así el documento mide lo que mide lo impreso. */
+  body > *:not(#impresion) {
+    display: none !important;
+  }
+
+  /*
+   * Con la misma especificidad que la regla de la vista previa, **a propósito**.
+   * `body.viendo-documento #impresion` pesa más que un `#impresion` suelto, así que la primera
+   * versión de esto no anulaba nada: el PDF salía con el fondo oscuro del overlay impreso como
+   * un bloque gris debajo de la hoja. Sólo se ve generando el PDF.
+   */
+  #impresion,
+  body.viendo-documento #impresion {
+    display: block;
+    position: static;
+    inset: auto;
+    z-index: auto;
+    overflow: visible;
+    background: none;
+  }
+
+  body.viendo-documento {
+    overflow: visible;
+  }
+
+  /* En papel la hoja ya tiene los márgenes de `@page`: no lleva los suyos ni sombra. */
+  .hoja {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  /* El fondo gris de la aplicación en papel es tinta tirada. */
+  html,
+  body,
+  .hoja {
+    background: white !important;
+  }
+
+  /* Lo que sólo sirve en pantalla: botones, buscadores, avisos de la demo. */
+  .no-imprimir {
+    display: none !important;
+  }
+
+  /*
+   * Los fondos neutros ahorran tinta y se leen mejor en blanco. **Con coincidencia exacta**
+   * (`~=`), no por subcadena: `[class*='bg-marca-5']` también agarra `bg-marca-500`, y así se
+   * blanqueó la barra de sesiones de la ficha kinésica — quedaba «4 de 10» sin las cuatro
+   * marcadas. Sólo se ve generando el PDF.
+   *
+   * Los fondos que significan algo —el rojo de un signo fuera de rango, el ámbar de una
+   * autorización por agotarse— se imprimen como están: son información, no adorno.
+   */
+  .hoja [class~='bg-gris-50'],
+  .hoja [class~='bg-gris-100'],
+  .hoja [class~='bg-marca-50'],
+  .hoja [class~='bg-tinta-50'] {
+    background: white !important;
+  }
+
+  /*
+   * **Los colores de los gráficos se imprimen siempre.**
+   *
+   * Un navegador no imprime fondos ni rellenos salvo que se lo pidan, y eso vaciaba justo lo que
+   * `HU-005` exige que se distinga en papel: las tramas del odontograma —caries queda como un
+   * cuadrado rojo macizo, indistinguible de restaurada— y las casillas marcadas de la orden de
+   * estudio, que salían TODAS vacías. En pantalla se ve perfecto; sólo aparece al imprimir de
+   * verdad, con la configuración de fábrica.
+   */
+  .hoja svg,
+  .hoja [data-imprimir-color] {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Nada se corta al medio de una tarjeta o de una fila. */
+  .hoja section,
+  .hoja tr,
+  .hoja li {
+    break-inside: avoid;
+  }
+
+  /* En papel no hay barra lateral: la ficha usa el ancho completo. */
+  .hoja .overflow-x-auto {
+    overflow: visible !important;
+  }
+
+  .hoja table {
+    min-width: 0 !important;
+  }
+}

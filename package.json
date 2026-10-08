@@ -1,0 +1,32 @@
+{
+  "name": "cuspide-demo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.5",
+  "type": "module",
+  "description": "Cúspide — demo navegable de un SaaS de gestión para consultorios de salud. Frontend con datos de ejemplo, sin backend.",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "pnpm build:shared && pnpm --filter @cuspide/frontend dev",
+    "build": "pnpm --filter @cuspide/shared build && pnpm --filter @cuspide/frontend build",
+    "typecheck": "pnpm build:shared && pnpm -r typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm build:shared && pnpm -r test",
+    "build:shared": "pnpm --filter @cuspide/shared build",
+    "build:pages": "pnpm build:shared && CUSPIDE_BASE=/Cuspide-Demo/ pnpm --filter @cuspide/frontend build && cp frontend/dist/index.html frontend/dist/404.html"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "@types/node": "^22.10.2"
+  }
+}
