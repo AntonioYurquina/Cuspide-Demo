@@ -106,7 +106,7 @@ export function PlanDeTratamiento({ paciente }: { paciente: Paciente }) {
             <th className="py-1.5">Etapa</th>
             <th className="py-1.5">Qué incluye</th>
             <th className="w-20 py-1.5 text-right">Sesiones</th>
-            <th className="w-28 py-1.5 text-right">Importe</th>
+            <th className="w-40 py-1.5 text-right">Importe</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gris-200">

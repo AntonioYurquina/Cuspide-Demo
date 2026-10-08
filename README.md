@@ -21,7 +21,7 @@ sus documentos según la especialidad.
 
 ### Ingreso de prueba
 
-El panel pide usuario y contraseña. Los tres roles usan la contraseña `demo`:
+En la pantalla de ingreso hay un acceso de un clic por rol. También se puede escribir a mano: los tres usan la contraseña `demo`.
 
 | Usuario | Rol |
 |---|---|

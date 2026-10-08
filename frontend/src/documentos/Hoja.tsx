@@ -23,9 +23,9 @@ import { fechaCorta, fechaDeDocumento, HOY, type Paciente } from '../datos/consu
 /** Los datos del centro. En la etapa dos salen de la configuración; acá son los de la demo. */
 export const CENTRO = {
   direccion: 'Av. Belgrano 1247, Salta',
-  telefono: '(387) 421-8890',
+  telefono: '(387) 400-0000',
   correo: 'turnos@centrobelgrano.com.ar',
-  cuit: '30-71264518-3',
+  cuit: '30-00000000-0',
 } as const;
 
 /** El membrete, que es lo que convierte una impresión en un documento del centro. */
