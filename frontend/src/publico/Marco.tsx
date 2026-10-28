@@ -18,6 +18,7 @@ import { Link, useLocation } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { MARCA } from '../marca.ts';
 import { CENTRO } from '../documentos/Hoja.tsx';
+import { Credito } from '../components/Credito.tsx';
 
 const SECCIONES = [
   { ruta: '/', texto: 'Inicio' },
@@ -94,6 +95,7 @@ export function MarcoPublico({ children }: { children: ReactNode }) {
             <p className="text-gris-600">
               Hecho con <span className="font-semibold text-gris-800">{MARCA.sistema}</span>
             </p>
+            <Credito className="mt-1" />
             {/*
               La entrada del personal, al pie y sin destacar: el paciente no tiene cuenta y ver
               un «Ingresar» arriba lo hace pensar que necesita una.

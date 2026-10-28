@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../features/auth/useSesion.ts';
 import { Aviso, Boton, Campo, Entrada } from '../components/ui.tsx';
 import { Logo } from '../components/Logo.tsx';
+import { Credito } from '../components/Credito.tsx';
 import { MARCA } from '../marca.ts';
 import { useEspecialidad } from '../especialidades/index.ts';
 import { USUARIOS } from '../datos/usuarios.ts';
@@ -145,6 +146,7 @@ export function PaginaLogin() {
           </div>
 
           <p className="mt-6 text-center text-xs text-gris-500">{MARCA.nombre}</p>
+          <Credito className="mt-1 text-center" />
         </div>
       </section>
     </main>
